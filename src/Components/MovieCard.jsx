@@ -4,9 +4,9 @@ function MovieCard({ movie }) {
             <div className="movie-poster">
                 <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
                 <div className="movie-overlay">
-                    {/* <div className="fav-btn">
+                    <div className="fav-btn">
                         ❤
-                    </div> */}
+                    </div>
                 </div>
             </div>
             <div className="movie-info">

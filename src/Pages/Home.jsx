@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import MovieCard from "../Components/MovieCard";
 import { getPopularMovies, searchMovies } from "../Services/api";
+import { Link } from "react-router-dom";
+
 
 function Home() {
 
@@ -28,41 +30,51 @@ function Home() {
 
     const handleForm = async (e) => {
         e.preventDefault();
-        if(!text.trim()) return
-        if(loading) return
+        if (!text.trim()) return
+        if (loading) return
 
         setLoading(true)
-        try{
+        try {
             const searchResults = await searchMovies(text)
             setMovies(searchResults)
             setError(null)
         }
-        catch (err){
+        catch (err) {
             setError("Failed to load movies...")
         }
-        finally{
+        finally {
             setLoading(false)
         }
         setText("");
     }
 
-    return (
-        <div className="home">
-            <form onSubmit={handleForm}>
-                <input type="text" className="search" placeholder="Search Here..." value={text} onChange={(e) => {
-                    setText(e.target.value);
-                }} />
-                <button>Search</button>
-            </form>
-                
-            {loading ? <h1>Loading...</h1> : <div className="movies-grid">
-                {movies.map((movie) => (
-                    //movie.title.toLowerCase().startsWith(text) && 
-                    <MovieCard movie={movie} key={movie.id} />
-                ))}
-            </div>}
+    const currentYear = new Date().getFullYear();
 
-        </div>
+    return (
+        <>
+            <div className="home">
+                <form onSubmit={handleForm}>
+                    <input type="text" className="search" placeholder="Search Here..." value={text} onChange={(e) => {
+                        setText(e.target.value);
+                    }} />
+                    <button>Search</button>
+                </form>
+
+                {loading ? <h1>Loading...</h1> : <div className="movies-grid">
+                    {movies.map((movie) => (
+                        //movie.title.toLowerCase().startsWith(text) && 
+                        <MovieCard movie={movie} key={movie.id} />
+                    ))}
+                </div>}
+
+
+
+
+            </div>
+            <footer>
+                <p>© {currentYear} <Link to="https://akash-dutta-dev-io.github.io/">Akash Dutta</Link>. All rights reserved.</p>
+            </footer>
+        </>
     )
 }
 
